@@ -247,6 +247,139 @@ public class ChessPiece {
             }
         }
 
+        if (type == PieceType.QUEEN) {
+
+            //straight up
+            for (int i = 1; isValidPosition(myPosition.getRow() + i, myPosition.getColumn()); i++) {
+                ChessPosition newPosition = new ChessPosition(myPosition.getRow() + i, myPosition.getColumn());
+                ChessPiece occupyingPiece = board.getPiece(newPosition);
+
+                if (occupyingPiece != null) {
+                    //rook cannot move beyond a square occupied by an opponent
+                    if (occupyingPiece.getTeamColor() != getTeamColor()) {
+                        //rook can take the opponent on that square
+                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                    }
+                    break; //rook cannot move to a square occupied by its own team
+                }
+
+                validMoves.add(new ChessMove(myPosition, newPosition, null));
+            }
+
+            //straight down
+            for (int i = 1; isValidPosition(myPosition.getRow() - i, myPosition.getColumn()); i++) {
+                ChessPosition newPosition = new ChessPosition(myPosition.getRow() - i, myPosition.getColumn());
+                ChessPiece occupyingPiece = board.getPiece(newPosition);
+
+                if (occupyingPiece != null) {
+                    if (occupyingPiece.getTeamColor() != getTeamColor()) {
+                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                    }
+                    break;
+                }
+
+                validMoves.add(new ChessMove(myPosition, newPosition, null));
+            }
+
+            //right
+            for (int i = 1; isValidPosition(myPosition.getRow(), myPosition.getColumn() + i); i++) {
+                ChessPosition newPosition = new ChessPosition(myPosition.getRow(), myPosition.getColumn() + i);
+                ChessPiece occupyingPiece = board.getPiece(newPosition);
+
+                if (occupyingPiece != null) {
+                    if (occupyingPiece.getTeamColor() != getTeamColor()) {
+                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                    }
+                    break;
+                }
+
+                validMoves.add(new ChessMove(myPosition, newPosition, null));
+            }
+
+            //left
+            for (int i = 1; isValidPosition(myPosition.getRow(), myPosition.getColumn() - i); i++) {
+                ChessPosition newPosition = new ChessPosition(myPosition.getRow(), myPosition.getColumn() - i);
+                ChessPiece occupyingPiece = board.getPiece(newPosition);
+
+                if (occupyingPiece != null) {
+                    if (occupyingPiece.getTeamColor() != getTeamColor()) {
+                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                    }
+                    break;
+                }
+
+                validMoves.add(new ChessMove(myPosition, newPosition, null));
+            }
+
+            // Diagonal moves: starting position to top-right
+            for (int i = 1; isValidPosition(myPosition.getRow() + i, myPosition.getColumn() + i); i++) {
+                ChessPosition newPosition = new ChessPosition(myPosition.getRow() + i, myPosition.getColumn() + i);
+                ChessPiece occupyingPiece = board.getPiece(newPosition);
+
+                if (occupyingPiece != null) {
+                    // Bishop cannot move beyond a square occupied by an opponent
+                    if (occupyingPiece.getTeamColor() != getTeamColor()) {
+                        // Bishop can take the opponent on that square
+                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                    }
+                    break; // Bishop cannot move to a square occupied by its own team
+                }
+
+                validMoves.add(new ChessMove(myPosition, newPosition, null));
+            }
+
+            // Diagonal moves: starting position to top-left
+            for (int i = 1; isValidPosition(myPosition.getRow() + i, myPosition.getColumn() - i); i++) {
+                ChessPosition newPosition = new ChessPosition(myPosition.getRow() + i, myPosition.getColumn() - i);
+                ChessPiece occupyingPiece = board.getPiece(newPosition);
+
+                if (occupyingPiece != null) {
+                    // Bishop cannot move beyond a square occupied by an opponent
+                    if (occupyingPiece.getTeamColor() != getTeamColor()) {
+                        // Bishop can take the opponent on that square
+                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                    }
+                    break; // Bishop cannot move to a square occupied by its own team
+                }
+
+                validMoves.add(new ChessMove(myPosition, newPosition, null));
+            }
+
+            // Diagonal moves: starting position to bottom-left
+            for (int i = 1; isValidPosition(myPosition.getRow() - i, myPosition.getColumn() - i); i++) {
+                ChessPosition newPosition = new ChessPosition(myPosition.getRow() - i, myPosition.getColumn() - i);
+                ChessPiece occupyingPiece = board.getPiece(newPosition);
+
+                if (occupyingPiece != null) {
+                    // Bishop cannot move beyond a square occupied by an opponent
+                    if (occupyingPiece.getTeamColor() != getTeamColor()) {
+                        // Bishop can take the opponent on that square
+                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                    }
+                    break; // Bishop cannot move to a square occupied by its own team
+                }
+
+                validMoves.add(new ChessMove(myPosition, newPosition, null));
+            }
+
+            // Diagonal moves: starting position to bottom-right
+            for (int i = 1; isValidPosition(myPosition.getRow() - i, myPosition.getColumn() + i); i++) {
+                ChessPosition newPosition = new ChessPosition(myPosition.getRow() - i, myPosition.getColumn() + i);
+                ChessPiece occupyingPiece = board.getPiece(newPosition);
+
+                if (occupyingPiece != null) {
+                    // Bishop cannot move beyond a square occupied by an opponent
+                    if (occupyingPiece.getTeamColor() != getTeamColor()) {
+                        // Bishop can take the opponent on that square
+                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                    }
+                    break; // Bishop cannot move to a square occupied by its own team
+                }
+
+                validMoves.add(new ChessMove(myPosition, newPosition, null));
+            }
+        }
+
         return validMoves;
     }
 
