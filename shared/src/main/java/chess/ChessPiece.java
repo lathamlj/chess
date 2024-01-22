@@ -61,21 +61,19 @@ public class ChessPiece {
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         Collection<ChessMove> validMoves = new HashSet<>();
 
-//        if (type == PieceType.PAWN) {
-//            int direction = (pieceColor == ChessGame.TeamColor.WHITE) ? 1 : -1;
-//            int newRow = myPosition.getRow() + direction;
-//
-//            // Check if the new position is within the board boundaries
-//            if (isValidPosition(newRow, myPosition.getColumn())) {
-//                // Check if the position is empty
-//                if (board.getPiece(new ChessPosition(newRow, myPosition.getColumn())) == null) {
-//                    //validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, myPosition.getColumn())));
-//                }
-//
-//                // Add logic for capturing opponents diagonally
-//                // (You need to implement the actual logic based on the rules for each piece)
-//            }
-//        }
+        if (type == PieceType.PAWN) {
+            int direction = (pieceColor == ChessGame.TeamColor.WHITE) ? 1 : -1;
+            int newRow = myPosition.getRow() + direction;
+
+            if (isValidPosition(newRow, myPosition.getColumn())) {
+                if (board.getPiece(new ChessPosition(newRow, myPosition.getColumn())) == null) {
+                    validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, myPosition.getColumn()), null));
+                }
+
+                //logic for capturing opponents diagonally
+
+            }
+        }
 
         if (type == PieceType.BISHOP) {
 
