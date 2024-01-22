@@ -50,19 +50,12 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
-        throw new RuntimeException("Not implemented");
-    }
+        //int[] rowReset = {1, 2, 7, 8};
+        //int[] colReset = {1, 2, 3, 4, 5, 6, 7, 8};
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        ChessBoard that = (ChessBoard) o;
-//        return Arrays.equals(squares, that.squares);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Arrays.hashCode(squares);
-//    }
+        for (int col = 1; col <= 8; col++) {
+            addPiece(new ChessPosition(2, col), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN));
+            addPiece(new ChessPosition(7, col), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN));
+        }
+    }
 }

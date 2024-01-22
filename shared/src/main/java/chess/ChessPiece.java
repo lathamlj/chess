@@ -129,21 +129,6 @@ public class ChessPiece {
             }
         }
 
-
-//        if (type == PieceType.PAWN) {
-//            int direction = (pieceColor == ChessGame.TeamColor.WHITE) ? 1 : -1;
-//            int newRow = myPosition.getRow() + direction;
-//
-//            if (isValidPosition(newRow, myPosition.getColumn())) {
-//                if (board.getPiece(new ChessPosition(newRow, myPosition.getColumn())) == null) {
-//                    validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, myPosition.getColumn()), null));
-//                }
-//
-//                //logic for capturing opponents diagonally
-//
-//            }
-//        }
-
         if (type == PieceType.BISHOP) {
 
             // Diagonal moves: starting position to top-right
