@@ -69,7 +69,16 @@ public class ChessPiece {
             if (isValidPosition(newRow, myPosition.getColumn())) {
                 //check if the position in front is empty
                 if (board.getPiece(new ChessPosition(newRow, myPosition.getColumn())) == null) {
-                    validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, myPosition.getColumn()), null));
+                    //check if promotion is result of move
+                    if ((pieceColor == ChessGame.TeamColor.WHITE && myPosition.getRow() == 7) ||
+                            (pieceColor == ChessGame.TeamColor.BLACK && myPosition.getRow() == 2)) {
+                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, myPosition.getColumn()), ChessPiece.PieceType.QUEEN));
+                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, myPosition.getColumn()), ChessPiece.PieceType.BISHOP));
+                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, myPosition.getColumn()), ChessPiece.PieceType.ROOK));
+                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, myPosition.getColumn()), ChessPiece.PieceType.KNIGHT));
+                    } else {
+                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, myPosition.getColumn()), null));
+                    }
 
                     //if it's the pawn's first move, it can move two squares forward
                     if ((pieceColor == ChessGame.TeamColor.WHITE && myPosition.getRow() == 2) ||
@@ -89,14 +98,32 @@ public class ChessPiece {
                 if (isValidPosition(newRow, leftCaptureCol)) {
                     ChessPiece leftCapturePiece = board.getPiece(new ChessPosition(newRow, leftCaptureCol));
                     if (leftCapturePiece != null && leftCapturePiece.getTeamColor() != getTeamColor()) {
-                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), null));
+                        //check if promotion is result of move
+                        if ((pieceColor == ChessGame.TeamColor.WHITE && myPosition.getRow() == 7) ||
+                                (pieceColor == ChessGame.TeamColor.BLACK && myPosition.getRow() == 2)) {
+                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), ChessPiece.PieceType.QUEEN));
+                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), ChessPiece.PieceType.BISHOP));
+                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), ChessPiece.PieceType.ROOK));
+                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), ChessPiece.PieceType.KNIGHT));
+                        } else {
+                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), null));
+                        }
                     }
                 }
 
                 if (isValidPosition(newRow, rightCaptureCol)) {
                     ChessPiece rightCapturePiece = board.getPiece(new ChessPosition(newRow, rightCaptureCol));
                     if (rightCapturePiece != null && rightCapturePiece.getTeamColor() != getTeamColor()) {
-                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), null));
+                        //check if promotion is result of move
+                        if ((pieceColor == ChessGame.TeamColor.WHITE && myPosition.getRow() == 7) ||
+                                (pieceColor == ChessGame.TeamColor.BLACK && myPosition.getRow() == 2)) {
+                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), ChessPiece.PieceType.QUEEN));
+                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), ChessPiece.PieceType.BISHOP));
+                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), ChessPiece.PieceType.ROOK));
+                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), ChessPiece.PieceType.KNIGHT));
+                        } else {
+                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), null));
+                        }
                     }
                 }
             }
