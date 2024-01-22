@@ -65,15 +65,57 @@ public class ChessPiece {
             int direction = (pieceColor == ChessGame.TeamColor.WHITE) ? 1 : -1;
             int newRow = myPosition.getRow() + direction;
 
+            //check if the new position is within the boundaries
             if (isValidPosition(newRow, myPosition.getColumn())) {
+                //check if the position in front is empty
                 if (board.getPiece(new ChessPosition(newRow, myPosition.getColumn())) == null) {
                     validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, myPosition.getColumn()), null));
+
+                    //if it's the pawn's first move, it can move two squares forward
+                    if ((pieceColor == ChessGame.TeamColor.WHITE && myPosition.getRow() == 2) ||
+                            (pieceColor == ChessGame.TeamColor.BLACK && myPosition.getRow() == 7)) {
+                        int doubleMoveRow = myPosition.getRow() + 2 * direction;
+                        if (isValidPosition(doubleMoveRow, myPosition.getColumn()) &&
+                                board.getPiece(new ChessPosition(doubleMoveRow, myPosition.getColumn())) == null) {
+                            validMoves.add(new ChessMove(myPosition, new ChessPosition(doubleMoveRow, myPosition.getColumn()), null));
+                        }
+                    }
                 }
 
-                //logic for capturing opponents diagonally
+                //check for capturing opponents diagonally
+                int leftCaptureCol = myPosition.getColumn() - 1;
+                int rightCaptureCol = myPosition.getColumn() + 1;
 
+                if (isValidPosition(newRow, leftCaptureCol)) {
+                    ChessPiece leftCapturePiece = board.getPiece(new ChessPosition(newRow, leftCaptureCol));
+                    if (leftCapturePiece != null && leftCapturePiece.getTeamColor() != getTeamColor()) {
+                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), null));
+                    }
+                }
+
+                if (isValidPosition(newRow, rightCaptureCol)) {
+                    ChessPiece rightCapturePiece = board.getPiece(new ChessPosition(newRow, rightCaptureCol));
+                    if (rightCapturePiece != null && rightCapturePiece.getTeamColor() != getTeamColor()) {
+                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), null));
+                    }
+                }
             }
         }
+
+
+//        if (type == PieceType.PAWN) {
+//            int direction = (pieceColor == ChessGame.TeamColor.WHITE) ? 1 : -1;
+//            int newRow = myPosition.getRow() + direction;
+//
+//            if (isValidPosition(newRow, myPosition.getColumn())) {
+//                if (board.getPiece(new ChessPosition(newRow, myPosition.getColumn())) == null) {
+//                    validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, myPosition.getColumn()), null));
+//                }
+//
+//                //logic for capturing opponents diagonally
+//
+//            }
+//        }
 
         if (type == PieceType.BISHOP) {
 
