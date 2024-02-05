@@ -26,14 +26,6 @@ public class ChessBoard {
         squares[position.getRow() - 1][position.getColumn() - 1] = piece;
     }
 
-    private boolean isValidPosition(int row, int col) {
-        return row >= 1 && row <= 8 && col >= 1 && col <= 8;
-    }
-
-//    private boolean pieceOccupies(int row, int col) {
-//        //returns true if piece is in given position
-//        throw new RuntimeException("Not implemented");
-//    }
     /**
      * Gets a chess piece on the chessboard
      *
