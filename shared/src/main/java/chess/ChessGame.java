@@ -55,8 +55,6 @@ public class ChessGame {
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         Collection<ChessMove> validMoves = new HashSet<>();
-        //create a temporary chess board to test whether the move will cause check
-        //ChessBoard tempBoard = new ChessBoard(chessBoard);
         ChessPiece piece = chessBoard.getPiece(startPosition);
 
         if (piece == null) {
@@ -67,18 +65,30 @@ public class ChessGame {
             for (ChessMove move : allMoves) {
                 ChessBoard tempBoard = new ChessBoard(chessBoard);
                 ChessPiece tempPiece = tempBoard.getPiece(startPosition);
-                //ChessBoard testBoard = new ChessBoard(tempBoard);
-                //ChessPiece testPiece = testBoard.getPiece(startPosition);
-                //makeMove(move);
+
+                if (tempPiece.getPieceType() == ChessPiece.PieceType.PAWN &&
+                        isPromotionMove(move.getEndPosition(), tempPiece.getTeamColor())) {
+
+                }
+
                 //add piece to endPosition
                 tempBoard.addPiece(new ChessPosition(move.getEndPosition().getRow(), move.getEndPosition().getColumn()), tempPiece);
                 //erase piece in start position
                 tempBoard.addPiece(new ChessPosition(move.getStartPosition().getRow(), move.getStartPosition().getColumn()), null);
-                if (!isInCheck(tempPiece.getTeamColor())) {
+
+                if (!isInCheck(tempBoard, tempPiece.getTeamColor())) {
                     validMoves.add(move);
                 }
             }
             return validMoves;
+        }
+    }
+
+    private boolean isPromotionMove(ChessPosition position, TeamColor teamColor) {
+        if (teamColor == TeamColor.WHITE) {
+            return position.getRow() == 8;
+        } else {
+            return position.getRow() == 1;
         }
     }
 
@@ -88,7 +98,6 @@ public class ChessGame {
      * @param move chess move to preform
      * @throws InvalidMoveException if move is invalid
      */
-    //public void makeMove(ChessMove move) throws InvalidMoveException {
     public void makeMove(ChessMove move) throws InvalidMoveException {
         //if it's not the teams turn to go
         if (chessBoard.getPiece(move.getStartPosition()).getTeamColor() != currentTeam) {
@@ -117,21 +126,23 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
+        return isInCheck(chessBoard, teamColor);
+    }
+
+    public boolean isInCheck(ChessBoard chessBoard, TeamColor teamColor) {
         ChessPosition kingPosition = getKingPosition(teamColor);
-        Collection<ChessPiece> opposingPieces = opposingPieces(teamColor);
+        Collection<ChessMove> opposingPiecesMoves = opposingPiecesMoves(chessBoard, teamColor);
 
         //check if any opposing pieces have a valid move that puts the king in check
-        for (ChessPiece piece : opposingPieces) {
-            ChessBoard tempBoard = new ChessBoard(chessBoard);
-            Collection<ChessMove> tempMoves = piece.pieceMoves(tempBoard, piece.getPosition(tempBoard));
-            for (ChessMove move : tempMoves) {
-                if (move.getEndPosition().equals(kingPosition)) {
-                    return true; //king is in check
-                }
+        for (ChessMove move : opposingPiecesMoves) {
+            if (move.getEndPosition().equals(kingPosition)) {
+                return true;
             }
         }
         return false;
     }
+
+    //scrap opposing pieces, go thru entire board here once to gather opposing pieces moves instead of the pieces
 
     //private func to find king position
     private ChessPosition getKingPosition(TeamColor teamColor) {
@@ -149,22 +160,22 @@ public class ChessGame {
         return null;
     }
 
-    //private function that returns an array of ChessPiece types of each of the opponent pieces
-    private Collection<ChessPiece> opposingPieces(TeamColor teamColor) {
-        Collection<ChessPiece> opposingPieces = new ArrayList<>();
+    //private function that returns an array of ChessMove types of each of the opponent pieces moves
+    //this function should call the pieceMoves function in the ChessPiece class
+    private Collection<ChessMove> opposingPiecesMoves(ChessBoard chessBoard, TeamColor teamColor) {
+        Collection<ChessMove> opposingPiecesMoves = new ArrayList<>();
         for (int i = 1; i <= 8; i++) {
             for (int j = 1; j <= 8; j++) {
                 ChessPosition currentPosition = new ChessPosition(i, j);
-                //need to pass in the tempBoard instead of the chessBoard below
                 ChessPiece pieceThere = chessBoard.getPiece(currentPosition);
                 if (pieceThere != null &&
                         pieceThere.getTeamColor() != teamColor) {
-                    //add that piece to the opposingPieces array
-                    opposingPieces.add(pieceThere);
+                    Collection<ChessMove> moves = pieceThere.pieceMoves(chessBoard, currentPosition);
+                    opposingPiecesMoves.addAll(moves);
                 }
             }
         }
-        return opposingPieces;
+        return opposingPiecesMoves;
     }
 
     /**
