@@ -82,6 +82,7 @@ public class ChessGame {
         return validMoves;
     }
 
+    //not using this now but could be emplyed for better efficiency in the future
     private boolean isPromotionMove(ChessPosition position, TeamColor teamColor) {
         if (teamColor == TeamColor.WHITE) {
             return position.getRow() == 8;
@@ -144,8 +145,6 @@ public class ChessGame {
         }
         return false;
     }
-
-    //scrap opposing pieces, go thru entire board here once to gather opposing pieces moves instead of the pieces
 
     //private func to find king position
     private ChessPosition getKingPosition(ChessBoard chessBoard, TeamColor teamColor) {
@@ -243,6 +242,7 @@ public class ChessGame {
                 return false;
             }
         }
+        return true;
     }
 
     /**
