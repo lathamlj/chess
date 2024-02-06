@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * For a class that can manage a chess game, making moves on a board
@@ -11,6 +12,7 @@ import java.util.Collection;
 public class ChessGame {
     private ChessBoard chessBoard;
     private TeamColor currentTeam;
+    private ChessMove move;
 
     public ChessGame() {
         this.currentTeam = TeamColor.WHITE;
@@ -48,7 +50,13 @@ public class ChessGame {
      * startPosition
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-        throw new RuntimeException("Not implemented");
+        Collection<ChessMove> validMoves = new HashSet<>();
+        //create a temporary chess board to test whether the move will cause check
+        ChessBoard tempBoard = new ChessBoard(chessBoard);
+
+        //call pieceMoves func on piece at startPosition
+
+        return validMoves;
     }
 
     /**
@@ -58,7 +66,24 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        throw new RuntimeException("Not implemented");
+        //if it's not the teams turn to go
+        if (chessBoard.getPiece(move.getStartPosition()).getTeamColor() != currentTeam) {
+            throw new InvalidMoveException("its not your turn");
+        }
+
+        //if the move is not in the hash set returned by the validMoves function above
+        if (!validMoves(move.getStartPosition()).contains(move)) {
+            throw new InvalidMoveException("not a valid move");
+        }
+
+        //if it doesn't leave the king in check
+
+
+        //check if tempboard after move causes it to be in check
+        if (tempBoard.isInCheck(currentTeam)) {
+            throw new InvalidMoveException("move puts own king in check");
+        }
+
     }
 
     /**

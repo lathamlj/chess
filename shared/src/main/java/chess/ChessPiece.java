@@ -60,7 +60,7 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        Collection<ChessMove> validMoves = new HashSet<>();
+        Collection<ChessMove> pieceMoves = new HashSet<>();
 
         if (type == PieceType.PAWN) {
             int direction = (pieceColor == ChessGame.TeamColor.WHITE) ? 1 : -1;
@@ -74,12 +74,12 @@ public class ChessPiece {
                     //check if promotion is result of move
                     if ((pieceColor == ChessGame.TeamColor.WHITE && myPosition.getRow() == 7) ||
                             (pieceColor == ChessGame.TeamColor.BLACK && myPosition.getRow() == 2)) {
-                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, newCol), ChessPiece.PieceType.QUEEN));
-                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, newCol), ChessPiece.PieceType.BISHOP));
-                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, newCol), ChessPiece.PieceType.ROOK));
-                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, newCol), ChessPiece.PieceType.KNIGHT));
+                        pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, newCol), ChessPiece.PieceType.QUEEN));
+                        pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, newCol), ChessPiece.PieceType.BISHOP));
+                        pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, newCol), ChessPiece.PieceType.ROOK));
+                        pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, newCol), ChessPiece.PieceType.KNIGHT));
                     } else {
-                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, newCol), null));
+                        pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, newCol), null));
                     }
 
                     //if it's the pawn's first move, it can move two squares forward
@@ -88,7 +88,7 @@ public class ChessPiece {
                         int doubleMoveRow = myPosition.getRow() + 2 * direction;
                         if (isValidPosition(doubleMoveRow, myPosition.getColumn()) &&
                                 board.getPiece(new ChessPosition(doubleMoveRow, newCol)) == null) {
-                            validMoves.add(new ChessMove(myPosition, new ChessPosition(doubleMoveRow, newCol), null));
+                            pieceMoves.add(new ChessMove(myPosition, new ChessPosition(doubleMoveRow, newCol), null));
                         }
                     }
                 }
@@ -103,12 +103,12 @@ public class ChessPiece {
                         //check if promotion is result of move
                         if ((pieceColor == ChessGame.TeamColor.WHITE && myPosition.getRow() == 7) ||
                                 (pieceColor == ChessGame.TeamColor.BLACK && myPosition.getRow() == 2)) {
-                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), ChessPiece.PieceType.QUEEN));
-                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), ChessPiece.PieceType.BISHOP));
-                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), ChessPiece.PieceType.ROOK));
-                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), ChessPiece.PieceType.KNIGHT));
+                            pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), ChessPiece.PieceType.QUEEN));
+                            pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), ChessPiece.PieceType.BISHOP));
+                            pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), ChessPiece.PieceType.ROOK));
+                            pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), ChessPiece.PieceType.KNIGHT));
                         } else {
-                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), null));
+                            pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, leftCaptureCol), null));
                         }
                     }
                 }
@@ -119,12 +119,12 @@ public class ChessPiece {
                         //check if promotion is result of move
                         if ((pieceColor == ChessGame.TeamColor.WHITE && myPosition.getRow() == 7) ||
                                 (pieceColor == ChessGame.TeamColor.BLACK && myPosition.getRow() == 2)) {
-                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), ChessPiece.PieceType.QUEEN));
-                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), ChessPiece.PieceType.BISHOP));
-                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), ChessPiece.PieceType.ROOK));
-                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), ChessPiece.PieceType.KNIGHT));
+                            pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), ChessPiece.PieceType.QUEEN));
+                            pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), ChessPiece.PieceType.BISHOP));
+                            pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), ChessPiece.PieceType.ROOK));
+                            pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), ChessPiece.PieceType.KNIGHT));
                         } else {
-                            validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), null));
+                            pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, rightCaptureCol), null));
                         }
                     }
                 }
@@ -142,7 +142,7 @@ public class ChessPiece {
                 if (isValidPosition(newRow, newCol)) {
                     ChessPiece occupyingPiece = board.getPiece(new ChessPosition(newRow, newCol));
                     if (occupyingPiece == null || occupyingPiece.getTeamColor() != getTeamColor()) {
-                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, newCol), null));
+                        pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, newCol), null));
                     }
                 }
             }
@@ -159,7 +159,7 @@ public class ChessPiece {
                 if (isValidPosition(newRow, newCol)) {
                     ChessPiece occupyingPiece = board.getPiece(new ChessPosition(newRow, newCol));
                     if (occupyingPiece == null || occupyingPiece.getTeamColor() != getTeamColor()) {
-                        validMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, newCol), null));
+                        pieceMoves.add(new ChessMove(myPosition, new ChessPosition(newRow, newCol), null));
                     }
                 }
             }
@@ -177,12 +177,12 @@ public class ChessPiece {
                     // Bishop cannot move beyond a square occupied by an opponent
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
                         // Bishop can take the opponent on that square
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break; // Bishop cannot move to a square occupied by its own team
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
             // Diagonal moves: starting position to top-left
             for (int i = 1; isValidPosition(myPosition.getRow() + i, myPosition.getColumn() - i); i++) {
@@ -195,12 +195,12 @@ public class ChessPiece {
                     // Bishop cannot move beyond a square occupied by an opponent
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
                         // Bishop can take the opponent on that square
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break; // Bishop cannot move to a square occupied by its own team
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
             // Diagonal moves: starting position to bottom-left
             for (int i = 1; isValidPosition(myPosition.getRow() - i, myPosition.getColumn() - i); i++) {
@@ -213,12 +213,12 @@ public class ChessPiece {
                     // Bishop cannot move beyond a square occupied by an opponent
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
                         // Bishop can take the opponent on that square
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break; // Bishop cannot move to a square occupied by its own team
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
             // Diagonal moves: starting position to bottom-right
             for (int i = 1; isValidPosition(myPosition.getRow() - i, myPosition.getColumn() + i); i++) {
@@ -231,12 +231,12 @@ public class ChessPiece {
                     // Bishop cannot move beyond a square occupied by an opponent
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
                         // Bishop can take the opponent on that square
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break; // Bishop cannot move to a square occupied by its own team
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
         }
 
@@ -252,12 +252,12 @@ public class ChessPiece {
                     //rook cannot move beyond a square occupied by an opponent
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
                         //rook can take the opponent on that square
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break; //rook cannot move to a square occupied by its own team
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
             //straight down
             for (int i = 1; isValidPosition(myPosition.getRow() - i, myPosition.getColumn()); i++) {
@@ -268,12 +268,12 @@ public class ChessPiece {
 
                 if (occupyingPiece != null) {
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break;
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
             //right
             for (int i = 1; isValidPosition(myPosition.getRow(), myPosition.getColumn() + i); i++) {
@@ -284,12 +284,12 @@ public class ChessPiece {
 
                 if (occupyingPiece != null) {
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break;
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
             //left
             for (int i = 1; isValidPosition(myPosition.getRow(), myPosition.getColumn() - i); i++) {
@@ -300,12 +300,12 @@ public class ChessPiece {
 
                 if (occupyingPiece != null) {
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break;
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
         }
 
@@ -321,12 +321,12 @@ public class ChessPiece {
                     // Bishop cannot move beyond a square occupied by an opponent
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
                         // Bishop can take the opponent on that square
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break; // Bishop cannot move to a square occupied by its own team
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
 
             // Diagonal moves: starting position to top-left
@@ -340,12 +340,12 @@ public class ChessPiece {
                     // Bishop cannot move beyond a square occupied by an opponent
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
                         // Bishop can take the opponent on that square
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break; // Bishop cannot move to a square occupied by its own team
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
 
             // Diagonal moves: starting position to bottom-left
@@ -359,12 +359,12 @@ public class ChessPiece {
                     // Bishop cannot move beyond a square occupied by an opponent
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
                         // Bishop can take the opponent on that square
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break; // Bishop cannot move to a square occupied by its own team
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
 
             // Diagonal moves: starting position to bottom-right
@@ -378,12 +378,12 @@ public class ChessPiece {
                     // Bishop cannot move beyond a square occupied by an opponent
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
                         // Bishop can take the opponent on that square
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break; // Bishop cannot move to a square occupied by its own team
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
 
             //straight up
@@ -397,12 +397,12 @@ public class ChessPiece {
                     //rook cannot move beyond a square occupied by an opponent
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
                         //rook can take the opponent on that square
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break; //rook cannot move to a square occupied by its own team
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
 
             //straight down
@@ -414,12 +414,12 @@ public class ChessPiece {
 
                 if (occupyingPiece != null) {
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break;
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
 
             //right
@@ -431,12 +431,12 @@ public class ChessPiece {
 
                 if (occupyingPiece != null) {
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break;
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
 
             //left
@@ -448,16 +448,16 @@ public class ChessPiece {
 
                 if (occupyingPiece != null) {
                     if (occupyingPiece.getTeamColor() != getTeamColor()) {
-                        validMoves.add(new ChessMove(myPosition, newPosition, null));
+                        pieceMoves.add(new ChessMove(myPosition, newPosition, null));
                     }
                     break;
                 }
 
-                validMoves.add(new ChessMove(myPosition, newPosition, null));
+                pieceMoves.add(new ChessMove(myPosition, newPosition, null));
             }
         }
 
-        return validMoves;
+        return pieceMoves;
     }
 
     private boolean isValidPosition(int row, int col) {

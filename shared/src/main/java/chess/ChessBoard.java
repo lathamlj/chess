@@ -16,6 +16,14 @@ public class ChessBoard {
 
     }
 
+    public ChessBoard(ChessBoard copyBoard) {
+        for (int i = 1; i <= 8; i++) {
+            for (int j = 1; j <= 8; j++) {
+                this.squares[i][j] = copyBoard.squares[i][j];
+            }
+        }
+    }
+
     /**
      * Adds a chess piece to the chessboard
      *
