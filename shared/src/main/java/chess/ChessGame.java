@@ -106,9 +106,12 @@ public class ChessGame {
 
         ChessPiece pieceToMove = chessBoard.getPiece(move.getStartPosition());
         //add piece to endPosition
-        chessBoard.addPiece(new ChessPosition(move.getEndPosition().getRow(), move.getEndPosition().getColumn()),
-                new ChessPiece(pieceToMove.getTeamColor(), move.getPromotionPiece()));
-        //chessBoard.addPiece(new ChessPosition(move.getEndPosition().getRow(), move.getEndPosition().getColumn()), pieceToMove);
+        if (move.getPromotionPiece() != null) {
+            chessBoard.addPiece(new ChessPosition(move.getEndPosition().getRow(), move.getEndPosition().getColumn()),
+                    new ChessPiece(pieceToMove.getTeamColor(), move.getPromotionPiece()));
+        } else {
+            chessBoard.addPiece(new ChessPosition(move.getEndPosition().getRow(), move.getEndPosition().getColumn()), pieceToMove);
+        }
         //erase piece in start position
         chessBoard.addPiece(new ChessPosition(move.getStartPosition().getRow(), move.getStartPosition().getColumn()), null);
 
