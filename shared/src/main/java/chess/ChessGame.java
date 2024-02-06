@@ -19,6 +19,7 @@ public class ChessGame {
 
     public ChessGame() {
         this.currentTeam = TeamColor.WHITE;
+        this.chessBoard = new ChessBoard();
     }
 
     /**
@@ -61,11 +62,22 @@ public class ChessGame {
             return null;
         } else {
             Collection<ChessMove> validMoves = new HashSet<>();
-            //call pieceMoves function on the tempPiece and add to validMoves
-            validMoves.addAll(tempPiece.pieceMoves(tempBoard, startPosition));
+            Collection<ChessMove> allMoves = tempPiece.pieceMoves(tempBoard, startPosition);
+
+            for (ChessMove move : allMoves) {
+                //ChessBoard testBoard = new ChessBoard(tempBoard);
+                //ChessPiece testPiece = testBoard.getPiece(startPosition);
+                //makeMove(move);
+                //add piece to endPosition
+                tempBoard.addPiece(new ChessPosition(move.getEndPosition().getRow(), move.getEndPosition().getColumn()), tempPiece);
+                //erase piece in start position
+                tempBoard.addPiece(new ChessPosition(move.getStartPosition().getRow(), move.getStartPosition().getColumn()), null);
+                if (!isInCheck(tempPiece.getTeamColor())) {
+                    validMoves.add(move);
+                }
+            }
             return validMoves;
         }
-        //check if move puts king in check by calling isInCheck function
     }
 
     /**
@@ -74,19 +86,26 @@ public class ChessGame {
      * @param move chess move to preform
      * @throws InvalidMoveException if move is invalid
      */
+    //public void makeMove(ChessMove move) throws InvalidMoveException {
     public void makeMove(ChessMove move) throws InvalidMoveException {
         //if it's not the teams turn to go
         if (chessBoard.getPiece(move.getStartPosition()).getTeamColor() != currentTeam) {
             throw new InvalidMoveException("its not your turn");
         }
 
-        //if the move is not in the hash set returned by the validMoves function above
-        if (!validMoves(move.getStartPosition()).contains(move)) {
+        Collection<ChessMove> validMoves = validMoves(move.getStartPosition());
+        if (validMoves == null || !validMoves.contains(move)) {
             throw new InvalidMoveException("not a valid move");
         }
 
-        ChessPiece movedPiece = chessBoard.getPiece(move.getStartPosition());
+        ChessPiece pieceToMove = chessBoard.getPiece(move.getStartPosition());
+        //add piece to endPosition
+        chessBoard.addPiece(new ChessPosition(move.getEndPosition().getRow(), move.getEndPosition().getColumn()), pieceToMove);
+        //erase piece in start position
+        chessBoard.addPiece(new ChessPosition(move.getStartPosition().getRow(), move.getStartPosition().getColumn()), null);
 
+        //taking turns
+        currentTeam = (currentTeam == TeamColor.WHITE) ? TeamColor.BLACK : TeamColor.WHITE;
     }
 
     /**
