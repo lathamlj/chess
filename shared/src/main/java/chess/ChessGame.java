@@ -66,22 +66,17 @@ public class ChessGame {
                 ChessBoard tempBoard = new ChessBoard(chessBoard);
                 ChessPiece tempPiece = tempBoard.getPiece(startPosition);
 
-                if (tempPiece.getPieceType() == ChessPiece.PieceType.PAWN &&
-                        isPromotionMove(move.getEndPosition(), tempPiece.getTeamColor())) {
-
-                }
-
                 //add piece to endPosition
-                tempBoard.addPiece(new ChessPosition(move.getEndPosition().getRow(), move.getEndPosition().getColumn()), tempPiece);
+                tempBoard.addPiece(new ChessPosition(move.getEndPosition().getRow(), move.getEndPosition().getColumn()),
+                        new ChessPiece(piece.getTeamColor(), move.getPromotionPiece()));
                 //erase piece in start position
                 tempBoard.addPiece(new ChessPosition(move.getStartPosition().getRow(), move.getStartPosition().getColumn()), null);
-
                 if (!isInCheck(tempBoard, tempPiece.getTeamColor())) {
                     validMoves.add(move);
                 }
             }
-            return validMoves;
         }
+        return validMoves;
     }
 
     private boolean isPromotionMove(ChessPosition position, TeamColor teamColor) {
@@ -111,7 +106,9 @@ public class ChessGame {
 
         ChessPiece pieceToMove = chessBoard.getPiece(move.getStartPosition());
         //add piece to endPosition
-        chessBoard.addPiece(new ChessPosition(move.getEndPosition().getRow(), move.getEndPosition().getColumn()), pieceToMove);
+        chessBoard.addPiece(new ChessPosition(move.getEndPosition().getRow(), move.getEndPosition().getColumn()),
+                new ChessPiece(pieceToMove.getTeamColor(), move.getPromotionPiece()));
+        //chessBoard.addPiece(new ChessPosition(move.getEndPosition().getRow(), move.getEndPosition().getColumn()), pieceToMove);
         //erase piece in start position
         chessBoard.addPiece(new ChessPosition(move.getStartPosition().getRow(), move.getStartPosition().getColumn()), null);
 

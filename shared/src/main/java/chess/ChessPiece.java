@@ -45,6 +45,10 @@ public class ChessPiece {
         return type;
     }
 
+    public void setPieceType(PieceType pieceType) {
+        this.type = pieceType;
+    }
+
     //method that returns the position of a given piece
     public ChessPosition getPosition(ChessBoard board) {
         for (int row = 1; row <= 8; row++) {
