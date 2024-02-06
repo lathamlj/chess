@@ -54,17 +54,19 @@ public class ChessGame {
      * startPosition
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
+        Collection<ChessMove> validMoves = new HashSet<>();
         //create a temporary chess board to test whether the move will cause check
-        ChessBoard tempBoard = new ChessBoard(chessBoard);
-        ChessPiece tempPiece = tempBoard.getPiece(startPosition);
+        //ChessBoard tempBoard = new ChessBoard(chessBoard);
+        ChessPiece piece = chessBoard.getPiece(startPosition);
 
-        if (tempPiece == null) {
+        if (piece == null) {
             return null;
         } else {
-            Collection<ChessMove> validMoves = new HashSet<>();
-            Collection<ChessMove> allMoves = tempPiece.pieceMoves(tempBoard, startPosition);
+            Collection<ChessMove> allMoves = piece.pieceMoves(chessBoard, startPosition);
 
             for (ChessMove move : allMoves) {
+                ChessBoard tempBoard = new ChessBoard(chessBoard);
+                ChessPiece tempPiece = tempBoard.getPiece(startPosition);
                 //ChessBoard testBoard = new ChessBoard(tempBoard);
                 //ChessPiece testPiece = testBoard.getPiece(startPosition);
                 //makeMove(move);
@@ -153,6 +155,7 @@ public class ChessGame {
         for (int i = 1; i <= 8; i++) {
             for (int j = 1; j <= 8; j++) {
                 ChessPosition currentPosition = new ChessPosition(i, j);
+                //need to pass in the tempBoard instead of the chessBoard below
                 ChessPiece pieceThere = chessBoard.getPiece(currentPosition);
                 if (pieceThere != null &&
                         pieceThere.getTeamColor() != teamColor) {
