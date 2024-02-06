@@ -104,7 +104,7 @@ public class ChessGame {
             ChessBoard tempBoard = new ChessBoard(chessBoard);
             Collection<ChessMove> tempMoves = piece.pieceMoves(tempBoard, piece.getPosition(tempBoard));
             for (ChessMove move : tempMoves) {
-                if (move.equals(kingPosition)) {
+                if (move.getEndPosition().equals(kingPosition)) {
                     return true; //king is in check
                 }
             }
